@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>注文</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+</head>
+<body  class="other_body">
+
+<form th:action="@{/order_confirm}" th:object="${orderForm}" method="post">
+
+<h4>注文</h4>
+<div class="yellow_area">
+	<table th:each=" de : ${orderDe}">
+		<tr>
+			<td class="table_left">・isbn番号</td>
+			<td>[[${de.isbn}]]
+			<input type="hidden" name="isbn" th:value="${de.isbn}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="table_left">・タイトル</td>
+			<td th:text="${de.title}"></td>
+		</tr>
+		<tr>
+			<td class="table_left">・単価</td>
+			<td th:text="￥ + ${de.price}"></td>
+		</tr>
+	</table>
+</div>
+<br>
+<div>
+	<table>
+		<tr>
+			<td class="table_left">・注文個数</td>
+			<td>
+				<select id="orderQuantity" name="orderQuantity">
+    				<option th:each="i : ${#numbers.sequence(1, 100)}" th:value="${i}" th:text="${i}"></option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="table_left">・注文日</td>
+			<td th:text="${today}"></td>
+		</tr>
+	</table>
+</div>
+	<br>
+	<input type="submit" value="登録" class="btn-square" />
+	<button type="button" onclick="history.back()" class="btn-square">閉じる</button>
+</form>
+</body>
+</html>

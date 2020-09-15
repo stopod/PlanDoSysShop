@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>在庫管理システム</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+</head>
+<body class="index_body">
+
+<form th:action="@{./search}" th:object="${indexSearchForm}" method="post">
+<h4>在庫管理</h4>
+<div class="index_search_form">
+<span>条件</span>
+	<table>
+		<tr>
+			<td class="table_left">・ジャンル</td>
+			<td>
+				 <select name="genre">
+              		<option value="">---</option>
+              		<option th:each="item : ${selectItems}" th:value="${item.value}" th:text="${item.key}"></option>
+            	</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="table_left">・ISBN</td>
+			<td><input type="text" name="isbn" th:value="${isbn}" /></td>
+		</tr>
+		<tr>
+			<td class="table_left">・著者</td>
+			<td><input type="text" name="author" th:value="${author}" /></td>
+		</tr>
+		<tr>
+			<td class="table_left">・タイトル</td>
+			<td><input type="text" name="title" th:value="${title}" /></td>
+		</tr>
+		<tr>
+			<td class="table_left">・発注状態</td>
+			<td>
+				<select id="receiptAllFlg" name="receiptAllFlg">
+					<option value="">---</option>
+					<option value="0">依頼中</option>
+				</select>
+			</td>
+		</tr>		
+	</table>
+	<input type="submit" value="検索" class="btn-square"/>
+</div>
+</form>
+<br>
+<div class="sheet_area">
+	<div class="tbl-bdr">
+		<table>
+			<tr>
+				<th>isbn番号</th>
+				<th>タイトル</th>
+				<th>著者名</th>
+				<th>在庫数</th>
+				<th>注文状態</th>
+				<th>注文日</th>
+				<th>注文</th>
+				<th>納品</th>
+			</tr>
+			<tr th:each="orderlist:${orderList}">
+				<td>
+					<a th:href="@{./details/{isbn}(isbn = ${orderlist.isbn})}" th:text="${orderlist.isbn}"></a>
+				</td>
+				<td th:text="${orderlist.title}"></td>
+				<td th:text="${orderlist.author}"></td>
+				<td th:text="${orderlist.stock}"></td>
+				<td th:text="${orderlist.orderStatus}"></td>
+				<td th:text="${orderlist.orderDate}"></td>
+				<td align="center">
+					<form th:if="${orderlist.orderSelect != ''}" th:action="@{./order}"
+							th:object="${orderForm}" method="post" >
+						<input type="hidden" name="isbn"  th:value="${orderlist.isbn}"  />
+						<input type="hidden" name="price" th:value="${orderlist.price}" />
+						<input type="hidden" name="title" th:value="${orderlist.title}" />				
+						<button class="buttonIndex" type="submit">[[${orderlist.orderSelect}]]</button>
+					</form>
+				</td>
+				<td align="center">
+					<form th:if="${orderlist.deliverySelect != ''}" th:action="@{./delivery}"
+							th:object="${deliveryForm}" method="post" >
+						<input type="hidden" name="isbn" th:value="${orderlist.isbn}" />
+						<input type="hidden" name="price" th:value="${orderlist.price}" />
+						<input type="hidden" name="title" th:value="${orderlist.title}" />
+						<input type="hidden" name="orderNumber" th:value="${orderlist.orderNumber}" />
+						<button class="buttonIndex" type="submit">[[${orderlist.deliverySelect}]]</button>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>詳細</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+</head>
+<body class="other_body">
+
+<h4>詳細</h4>
+<div class="yellow_area">
+<table th:each=" de : ${details}">
+	<tr>
+		<td class="table_left">・isbn番号</td>
+		<td th:text="${de.isbn}"></td>
+	</tr>
+	<tr>
+		<td class="table_left">・タイトル</td>
+		<td th:text="${de.title}"></td>
+	</tr>
+	<tr>
+		<td class="table_left">・ジャンル</td>
+		<td th:text="${de.genre}"></td>
+	</tr>
+	<tr>
+		<td class="table_left">・著者</td>
+		<td th:text="${de.author}"></td>
+	</tr>
+	<tr>
+		<td class="table_left">・出版社</td>
+		<td th:text="${de.publisher}"></td>
+	</tr>
+	<tr>	
+		<td class="table_left">・発行年</td>
+		<td th:text="${de.year}"></td>
+	</tr>
+</table>
+</div>
+<p><button type="button" onclick="history.back()" class="btn-square">閉じる</button></p>
+</body>
+</html>

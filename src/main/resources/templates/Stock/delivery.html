@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>納品</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+</head>
+<body class="other_body">
+<form th:action="@{/delivery_confirm}" th:object="${confirmDliveryForm}" method="post">
+<h4>納品</h4>
+	<!-- 在庫管理画面から取得 -A -->
+	<div class="yellow_area">
+		<table th:each=" de : ${deliveryDe}">
+			<tr>
+				<td>・isbn番号</td>
+				<td class="table_left">[[${de.isbn}]]
+				<input type="hidden" name="isbn" th:value="${de.isbn}" />
+				<input type="hidden" name="orderNumber" th:value="${de.orderNumber}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="table_left">・タイトル</td>
+				<td>[[${de.title}]]
+				<input type="hidden" name="title" th:value="${de.title}" />
+			</tr>
+			<tr>
+				<td class="table_left">・単価</td>
+				<td>￥[[${de.price}]]
+				<input type="hidden" name="price" th:value="${de.price}" />	
+			</tr>
+		</table>
+	</div><br>
+	<!-- end-A -->
+	
+	<!--  -B
+		注文_注文マスタより取得
+		納品_納品マスタより取得
+	-->
+	<div class="tbl-bdr">
+		<table>
+			<tr>
+				<th></th>
+				<th>【注文】</th>
+				<th>【納品】</th>
+			</tr>
+			<tr>
+				<td>・個数</td>
+				<!-- 注文個数 -->
+				<td>[[${orderQuantity}]]
+					<input type="hidden" name="orderQuantity" th:value="${orderQuantity}" />
+				</td>
+				<!-- 納品個数 -->
+				<td>[[${deliveryQuantity}]]
+					<input type="hidden" name="deliveryQuantity" th:value="${deliveryQuantity}">
+				</td>
+			</tr>
+			<tr>
+				<td>・日付</td>
+				<!-- 注文日付 -->
+				<td th:text="${orderDate}"></td>
+				<!-- 納品日付 -->
+				<td th:text="${deliveryDate}"></td>
+			</tr>
+		</table>
+	</div>
+	<!-- end-B -->
+	
+	<br>
+	<table>
+		<tr>
+			<td class="table_left">・納品数</td>
+			<td>
+				<select id="confirmDeliveryQuantity" name="confirmDeliveryQuantity">
+    				<option th:each="i : ${#numbers.sequence(1, 100)}" th:value="${i}" th:text="${i}"></option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="table_left">・日付</td>
+			<td>[[${confirmDeliveryDate}]]
+				<input type="hidden" name="confirmDeliveryDate" th:value="${confirmDeliveryDate}" />
+			</td>
+		</tr>
+		<tr>
+			<td class="table_left">・受入者</td>
+			<td>
+				<input type="text" name="confirmRecipient" th:value="${confirmRecipient}" />
+			</td>
+		</tr>
+	</table><br>
+	<button type="submit" class="btn-square">登録</button>
+	<button type="button" onclick="history.back()" class="btn-square">閉じる</button>
+</form>
+</body>
+</html>
